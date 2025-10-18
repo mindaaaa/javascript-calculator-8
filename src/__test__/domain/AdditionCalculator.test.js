@@ -1,6 +1,6 @@
-import Calculator from '../../domain/Calculator.js';
+import Calculator from '../../domain/AdditionCalculator.js';
 
-describe('Calculator 클래스', () => {
+describe('AdditionCalculator 클래스', () => {
   describe('split', () => {
     test('기본 구분자로 문자열을 분리한다', () => {
       // given

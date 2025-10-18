@@ -1,4 +1,4 @@
-class Calculator {
+class AdditionCalculator {
   constructor(delimiters) {
     this.delimiters = delimiters;
   }
@@ -41,4 +41,4 @@ class Calculator {
   }
 }
 
-export default Calculator;
+export default AdditionCalculator;
