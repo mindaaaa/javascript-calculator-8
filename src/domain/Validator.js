@@ -47,9 +47,17 @@ class Validator {
   }
 
   /**
-   * 정규표현식 방식
+   * 정규표현식으로 커스텀 구분자 형식 검증
+   * @param {string} input - 검증할 입력 문자열
+   * @throws {Error} 허용되지 않는 문자가 포함된 경우
    */
-  static validateFormatRegex(input) {}
+  static validateFormatRegex(input) {
+    if (!input.startsWith('//')) return;
+
+    if (!/^\/\/.+\n/.test(input)) {
+      throw new Error('[ERROR] 커스텀 구분자 형식이 올바르지 않습니다.');
+    }
+  }
 
   static validateCharactersManual(input) {
     // for loop + input[i]
