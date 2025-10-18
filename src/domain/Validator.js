@@ -68,7 +68,7 @@ class Validator {
    * @throws {Error} 형식이 잘못된 경우
    */
   static validateFormatBuiltIn(input) {
-    if (!this.hasCustomDelimiter(input)) return;
+    if (!Validator.hasCustomDelimiter(input)) return;
 
     const newlineIndex = input.indexOf('\n');
 
@@ -82,7 +82,7 @@ class Validator {
    * @throws {Error} 허용되지 않는 문자가 포함된 경우
    */
   static validateFormatRegex(input) {
-    if (!this.hasCustomDelimiter(input)) return;
+    if (!Validator.hasCustomDelimiter(input)) return;
 
     if (!/^\/\/.+\n/.test(input)) {
       throw new Error('[ERROR] 커스텀 구분자 형식이 올바르지 않습니다.');
@@ -98,7 +98,7 @@ class Validator {
   static validateCharactersManual(input, delimiters) {
     let startIndex = 0;
 
-    if (this.hasCustomDelimiter(input)) {
+    if (Validator.hasCustomDelimiter(input)) {
       for (let i = 2; i < input.length; i++) {
         if (input[i] === '\n') {
           startIndex = i + 1;
@@ -129,7 +129,7 @@ class Validator {
   static validateCharactersBuiltIn(input, delimiters) {
     let expression = input;
 
-    if (this.hasCustomDelimiter(input)) {
+    if (Validator.hasCustomDelimiter(input)) {
       const newlineIndex = input.indexOf('\n');
       if (newlineIndex !== -1) {
         expression = input.slice(newlineIndex + 1);
