@@ -64,4 +64,30 @@ describe('Validator 클래스', () => {
       }).toThrow('[ERROR]');
     });
   });
+
+  describe('validateFormatBuiltIn', () => {
+    test('올바른 커스텀 구분자 형식은 통과한다', () => {
+      expect(() => {
+        Validator.validateFormatBuiltIn('//;\n1;2;3');
+      }).not.toThrow();
+    });
+
+    test('커스텀 구분자가 없는 일반 입력은 통과한다', () => {
+      expect(() => {
+        Validator.validateFormatBuiltIn('1,2,3');
+      }).not.toThrow();
+    });
+
+    test('구분자가 비어있으면 에러를 던진다', () => {
+      expect(() => {
+        Validator.validateFormatBuiltIn('//\n1');
+      }).toThrow('[ERROR]');
+    });
+
+    test('개행 문자가 없으면 에러를 던진다', () => {
+      expect(() => {
+        Validator.validateFormatBuiltIn('//;1;2');
+      }).toThrow('[ERROR]');
+    });
+  });
 });
