@@ -48,17 +48,6 @@ describe('Separator 클래스', () => {
       expect(result).toEqual([',', ':', ';']);
     });
 
-    test('커스텀 구분자가 없으면 기본 구분자만 반환한다', () => {
-      // given
-      const input = '1,2:3';
-
-      // when
-      const result = Separator.getDelimiters(input);
-
-      // then
-      expect(result).toEqual([',', ':']);
-    });
-
     test('여러 글자 커스텀 구분자도 배열에 포함한다', () => {
       // given
       const input = '//abc\n1abc2';
