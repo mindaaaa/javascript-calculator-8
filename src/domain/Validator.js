@@ -82,7 +82,9 @@ class Validator {
       const isDigit = currentChar >= '0' && currentChar <= '9';
       const isDelimiter = delimiters.includes(currentChar);
 
-      if (!isDigit && !isDelimiter) {
+      const isDecimalPoint = currentChar === '.' && !delimiters.includes('.');
+
+      if (!isDigit && !isDelimiter && !isDecimalPoint) {
         throw new Error('[ERROR] 허용되지 않은 문자가 포함되어 있습니다.');
       }
     }
@@ -120,6 +122,10 @@ class Validator {
       ...delimiters,
     ]);
 
+    if (!delimiters.includes('.')) {
+      allowedChars.add('.');
+    }
+
     for (const char of expression) {
       if (!allowedChars.has(char)) {
         throw new Error('[ERROR] 허용되지 않은 문자가 포함되어 있습니다.');
@@ -138,7 +144,9 @@ class Validator {
     if (!expression) return;
 
     const escapedDelimiters = delimiters.join('');
-    const pattern = new RegExp(`^[0-9${escapedDelimiters}]+$`);
+    const decimalPoint = delimiters.includes('.') ? '' : '\\.';
+
+    const pattern = new RegExp(`^[0-9${escapedDelimiters}${decimalPoint}]+$`);
     if (!pattern.test(expression)) {
       throw new Error('[ERROR] 허용되지 않은 문자가 포함되어 있습니다.');
     }
