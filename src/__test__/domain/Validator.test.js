@@ -116,4 +116,44 @@ describe('Validator 클래스', () => {
       }).toThrow('[ERROR]');
     });
   });
+
+  describe('문자 검증 - 3가지 방식', () => {
+    const methods = [
+      { name: 'Manual', fn: Validator.validateCharactersManual },
+      { name: 'BuiltIn', fn: Validator.validateCharactersBuiltIn },
+      { name: 'Regex', fn: Validator.validateCharactersRegex },
+    ];
+
+    methods.forEach(({ name, fn }) => {
+      describe(`validateCharacters${name}`, () => {
+        test(`[${name}] 기본 구분자만 있으면 통과한다`, () => {
+          const delimiters = [',', ':'];
+          expect(() => fn('1,2:3', delimiters)).not.toThrow();
+          expect(() => fn('123', delimiters)).not.toThrow();
+        });
+
+        test(`[${name}] 커스텀 구분자를 포함하면 통과한다`, () => {
+          const delimiters = [',', ':', ';']; // ← 커스텀 구분자 포함!
+          expect(() => fn('//;\n1;2;3', delimiters)).not.toThrow();
+        });
+
+        test(`[${name}] 빈 문자열은 허용한다`, () => {
+          const delimiters = [',', ':'];
+          expect(() => fn('', delimiters)).not.toThrow();
+        });
+
+        test(`[${name}] 허용되지 않은 문자는 에러를 던진다`, () => {
+          const delimiters = [',', ':'];
+          expect(() => fn('1+2', delimiters)).toThrow('[ERROR]');
+          expect(() => fn('1,2,abc', delimiters)).toThrow('[ERROR]');
+          expect(() => fn('1 2 3', delimiters)).toThrow('[ERROR]');
+        });
+
+        test(`[${name}] 구분자 목록에 없는 구분자는 에러를 던진다`, () => {
+          const delimiters = [',', ':']; // ';'는 없음
+          expect(() => fn('//;\n1;2;3', delimiters)).toThrow('[ERROR]');
+        });
+      });
+    });
+  });
 });
