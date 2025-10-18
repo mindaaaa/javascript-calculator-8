@@ -87,6 +87,23 @@ describe('Validator 클래스', () => {
           const delimiters = [',', ':']; // ';'는 없음
           expect(() => fn('//;\n1;2;3', delimiters)).toThrow('[ERROR]');
         });
+
+        test(`[${name}] 소수점이 포함된 숫자는 허용한다`, () => {
+          const delimiters = [',', ':'];
+          expect(() => fn('1.5,2.3:3.7', delimiters)).not.toThrow();
+          expect(() => fn('0.1,0.2', delimiters)).not.toThrow();
+        });
+
+        test(`[${name}] 구분자로 점을 사용하면 소수점은 허용하지 않는다`, () => {
+          const delimiters = [',', ':', '.'];
+          expect(() => fn('1,2.3', delimiters)).not.toThrow(); // '.'이 구분자로 인식됨
+        });
+
+        test(`[${name}] 소수와 정수가 혼합된 입력도 허용한다`, () => {
+          const delimiters = [',', ':'];
+          expect(() => fn('1,2.5:3', delimiters)).not.toThrow();
+          expect(() => fn('10.5,20', delimiters)).not.toThrow();
+        });
       });
     });
   });
