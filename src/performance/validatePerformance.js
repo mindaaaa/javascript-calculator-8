@@ -112,34 +112,58 @@ function runAllTests() {
     '\n🚀 Validator의 퍼포먼스 테스트가 진행 중입니다...\n'
   );
 
+  let fullReport = generateReportHeader();
+  fullReport += runFormatTests();
+  fullReport += runCharacterTests();
+
+  const savedPath = saveResultsToFile(fullReport, resultsDir);
+  MissionUtils.Console.print(`모든 테스트가 완료되었습니다.\n`);
+  MissionUtils.Console.print(`📑 결과: ${savedPath}\n`);
+}
+
+/**
+ * 성능 테스트 리포트의 헤더를 생성합니다.
+ * @returns {string} 리포트 헤더 문자열
+ */
+function generateReportHeader() {
   let fullReport = '';
   fullReport += `Validator Performance Test Report\n`;
   fullReport += `Generated at: ${new Date().toLocaleString()}\n`;
   fullReport += '='.repeat(60) + '\n';
+  return fullReport;
+}
 
+/**
+ * 형식 검증 성능 테스트를 실행하고 결과를 반환합니다.
+ * @returns {string} 형식 검증 테스트 결과
+ */
+function runFormatTests() {
   const formatResult = testFormatValidation();
-  fullReport += formatResult;
+  printResults(formatResult);
+  return formatResult;
+}
 
-  const simpleResult = testCharacterValidation('Simple', testInputs.simple);
-  fullReport += simpleResult;
+/**
+ * 문자 검증 성능 테스트를 모든 케이스에 대해 실행하고 결과를 반환합니다.
+ * @returns {string} 모든 문자 검증 테스트 결과
+ */
+function runCharacterTests() {
+  let results = '';
 
-  const customResult = testCharacterValidation(
-    'With Custom Delimiter',
-    testInputs.withCustom
-  );
-  fullReport += customResult;
+  const testCases = [
+    { name: 'Simple', data: testInputs.simple },
+    { name: 'With Custom Delimiter', data: testInputs.withCustom },
+    { name: 'With Decimal', data: testInputs.withDecimal },
+    { name: 'Complex', data: testInputs.complex },
+  ];
 
-  const decimalResult = testCharacterValidation(
-    'With Decimal',
-    testInputs.withDecimal
-  );
-  fullReport += decimalResult;
+  testCases.forEach(({ name, data }) => {
+    const result = testCharacterValidation(name, data);
+    printResults(result);
+    results += result;
+  });
 
-  const complexResult = testCharacterValidation('Complex', testInputs.complex);
-  fullReport += complexResult;
-
-  const savedPath = saveResultsToFile(fullReport, resultsDir);
-  MissionUtils.Console.print(`모든 테스트가 ${savedPath}에 완료되었습니다.\n`);
+  return results;
 }
 
 runAllTests();
