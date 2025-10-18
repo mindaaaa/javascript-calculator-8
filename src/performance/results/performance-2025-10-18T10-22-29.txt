@@ -1,0 +1,108 @@
+Validator Performance Test Report
+Generated at: 2025. 10. 18. 오후 7:22:29
+============================================================
+
+============================================================
+📊 Format Validation Performance
+============================================================
+
+🥇 [BuiltIn (indexOf)]
+   Total: 4.848ms
+   Avg:   0.000048ms/call
+   Ratio: 1.00x
+
+🥈 [Regex (Pattern)]
+   Total: 14.964ms
+   Avg:   0.000150ms/call
+   Ratio: 3.09x
+
+🥉 [Manual (Pointer)]
+   Total: 15.974ms
+   Avg:   0.000160ms/call
+   Ratio: 3.29x
+
+============================================================
+
+============================================================
+📊 Character Validation - Simple
+============================================================
+
+🥇 [Manual (Loop)]
+   Total: 7.769ms
+   Avg:   0.000155ms/call
+   Ratio: 1.00x
+
+🥈 [Regex (Pattern)]
+   Total: 17.522ms
+   Avg:   0.000350ms/call
+   Ratio: 2.26x
+
+🥉 [BuiltIn (Set)]
+   Total: 35.143ms
+   Avg:   0.000703ms/call
+   Ratio: 4.52x
+
+============================================================
+
+============================================================
+📊 Character Validation - With Custom Delimiter
+============================================================
+
+🥇 [Manual (Loop)]
+   Total: 10.142ms
+   Avg:   0.000203ms/call
+   Ratio: 1.00x
+
+🥈 [Regex (Pattern)]
+   Total: 19.534ms
+   Avg:   0.000391ms/call
+   Ratio: 1.93x
+
+🥉 [BuiltIn (Set)]
+   Total: 35.508ms
+   Avg:   0.000710ms/call
+   Ratio: 3.50x
+
+============================================================
+
+============================================================
+📊 Character Validation - With Decimal
+============================================================
+
+🥇 [Manual (Loop)]
+   Total: 11.269ms
+   Avg:   0.000225ms/call
+   Ratio: 1.00x
+
+🥈 [Regex (Pattern)]
+   Total: 15.438ms
+   Avg:   0.000309ms/call
+   Ratio: 1.37x
+
+🥉 [BuiltIn (Set)]
+   Total: 33.011ms
+   Avg:   0.000660ms/call
+   Ratio: 2.93x
+
+============================================================
+
+============================================================
+📊 Character Validation - Complex
+============================================================
+
+🥇 [Regex (Pattern)]
+   Total: 19.856ms
+   Avg:   0.000397ms/call
+   Ratio: 1.00x
+
+🥈 [Manual (Loop)]
+   Total: 23.969ms
+   Avg:   0.000479ms/call
+   Ratio: 1.21x
+
+🥉 [BuiltIn (Set)]
+   Total: 51.343ms
+   Avg:   0.001027ms/call
+   Ratio: 2.59x
+
+============================================================
