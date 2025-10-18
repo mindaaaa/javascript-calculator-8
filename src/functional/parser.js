@@ -52,7 +52,7 @@ const removeCustomDelimiterPattern = (expression) =>
 const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 /**
- * 구분자로 문자열 분리 (커링)
+ * 구분자로 문자열 분리 (부분 커링)
  * @param {string[]} delimiters - 구분자 배열
  * @returns {Function} 문자열을 받아 분리하는 함수
  */
@@ -60,7 +60,6 @@ const splitByDelimiters = (delimiters) => (expression) => {
   const cleanExpression = removeCustomDelimiterPattern(expression);
   if (!cleanExpression) return [];
 
-  // 정규식 특수문자 이스케이프 후 결합
   const pattern = delimiters.map(escapeRegExp).join('|');
   const regex = new RegExp(pattern);
 
