@@ -29,6 +29,16 @@ class Calculator {
     const operand = strNum.map(Number);
     return operand.reduce((acc, num) => acc + num, 0);
   }
+
+  /**
+   * 전체 계산 (split & sum)
+   * @param {string} expression - 계산할 문자열
+   * @returns {number} 계산 결과
+   */
+  calculate(expression) {
+    const stringNumbers = this.split(expression);
+    return this.sum(stringNumbers);
+  }
 }
 
 export default Calculator;

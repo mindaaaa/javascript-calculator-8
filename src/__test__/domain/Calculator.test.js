@@ -38,4 +38,44 @@ describe('Calculator 클래스', () => {
       expect(result).toEqual([]);
     });
   });
+
+  describe('sum', () => {
+    test('문자열 배열을 숫자로 변환하여 합계를 계산한다', () => {
+      // given
+      const calculator = new Calculator([',', ':']);
+      const stringNumbers = ['1', '2', '3'];
+
+      // when
+      const result = calculator.sum(stringNumbers);
+
+      // then
+      expect(result).toBe(6);
+    });
+
+    test('빈 배열은 0을 반환한다', () => {
+      // given
+      const calculator = new Calculator([',', ':']);
+      const stringNumbers = [];
+
+      // when
+      const result = calculator.sum(stringNumbers);
+
+      // then
+      expect(result).toBe(0);
+    });
+  });
+
+  describe('calculate', () => {
+    test('전체 계산을 수행한다', () => {
+      // given
+      const calculator = new Calculator([',', ':']);
+      const input = '1,2:3';
+
+      // when
+      const result = calculator.calculate(input);
+
+      // then
+      expect(result).toBe(6);
+    });
+  });
 });
