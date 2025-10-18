@@ -17,6 +17,18 @@ class Calculator {
 
     return cleanExpression.split(regex).filter((str) => str !== '');
   }
+
+  /**
+   * 문자열 배열을 숫자로 변환하여 합계 계산
+   * @param {string[]} stringNumbers - 문자열 숫자 배열
+   * @returns {number} 합계
+   */
+  sum(strNum) {
+    if (!strNum.length) return 0;
+
+    const operand = strNum.map(Number);
+    return operand.reduce((acc, num) => acc + num, 0);
+  }
 }
 
 export default Calculator;
