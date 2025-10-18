@@ -1,4 +1,7 @@
 class Separator {
+  static DEFAULT_DELIMITERS = [',', ':'];
+  static CUSTOM_DELIMITER_START_INDEX = 2;
+
   /**
    * 커스텀 구분자 추출
    * @param {string} input - 입력 문자열
@@ -6,7 +9,7 @@ class Separator {
    */
   static extractCustomDelimiter(input) {
     const newlineInput = input.indexOf('\n');
-    return input.slice(2, newlineInput);
+    return input.slice(Separator.CUSTOM_DELIMITER_START_INDEX, newlineInput);
   }
 
   /**
@@ -15,13 +18,12 @@ class Separator {
    * @returns {string[]} 구분자 배열
    */
   static getDelimiters(input) {
-    const defaultDelimiters = [',', ':'];
     const customDelimiter = this.extractCustomDelimiter(input);
 
     if (customDelimiter) {
-      return [...defaultDelimiters, customDelimiter];
+      return [...Separator.DEFAULT_DELIMITERS, customDelimiter];
     }
-    return defaultDelimiters;
+    return Separator.DEFAULT_DELIMITERS;
   }
 }
 
