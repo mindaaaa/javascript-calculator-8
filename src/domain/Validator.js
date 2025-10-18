@@ -13,7 +13,9 @@ class Validator {
   }
 
   /**
-   * 순수 포인터/인덱스 방식
+   * 포인터/인덱스 방식으로 커스텀 구분자 형식 검증
+   * @param {string} input - 검증할 입력 문자열
+   * @throws {Error} 형식이 잘못된 경우
    */
   static validateFormatManual(input) {
     if (input.length < 2 || input[0] !== '/' || input[1] !== '/') return;
@@ -31,9 +33,18 @@ class Validator {
   }
 
   /**
-   * 내장 메서드 활용 방식
+   * 내장 메서드로 커스텀 구분자 형식 검증
+   * @param {string} input - 검증할 입력 문자열
+   * @throws {Error} 형식이 잘못된 경우
    */
-  static validateFormatBuiltIn(input) {}
+  static validateFormatBuiltIn(input) {
+    if (!input.startsWith('//')) return;
+
+    const newlineIndex = input.indexOf('\n');
+
+    if (newlineIndex <= 2)
+      throw new Error('[ERROR] 커스텀 구분자 형식이 올바르지 않습니다.');
+  }
 
   /**
    * 정규표현식 방식
