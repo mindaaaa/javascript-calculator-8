@@ -1,5 +1,24 @@
 class Validator {
   /**
+   * 성능 최적화된 형식 검증 (BuiltIn 방식 사용)
+   * @param {string} input - 검증할 입력 문자열
+   * @throws {Error} 형식이 잘못된 경우
+   */
+  static validateFormat(input) {
+    return this.validateFormatBuiltIn(input);
+  }
+
+  /**
+   * 성능 최적화된 문자 검증 (Manual 방식 사용)
+   * @param {string} input - 검증할 입력 문자열
+   * @param {string[]} delimiters - 허용할 구분자 배열
+   * @throws {Error} 허용되지 않은 문자가 포함된 경우
+   */
+  static validateCharacters(input, delimiters) {
+    return this.validateCharactersManual(input, delimiters);
+  }
+
+  /**
    * 숫자 배열에 음수가 포함되어 있는지 검증합니다.
    * 음수가 있으면 에러를 발생시킵니다.
    *

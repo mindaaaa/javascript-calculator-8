@@ -12,10 +12,10 @@ class App {
     const parsedInput = input.replace(/\\n/g, '\n');
 
     if (parsedInput.startsWith('//')) {
-      Validator.validateFormatManual(parsedInput);
+      Validator.validateFormat(parsedInput);
     }
     const delimiters = Separator.getDelimiters(parsedInput);
-    Validator.validateCharactersManual(parsedInput, delimiters);
+    Validator.validateCharacters(parsedInput, delimiters);
 
     const calculator = new AdditionCalculator(delimiters);
     const strNum = calculator.split(parsedInput);
