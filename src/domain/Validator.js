@@ -1,4 +1,6 @@
 class Validator {
+  static CUSTOM_DELIMITER_PREFIX = '//';
+
   /**
    * 성능 최적화된 형식 검증 (BuiltIn 방식 사용)
    * @param {string} input - 검증할 입력 문자열
@@ -32,12 +34,21 @@ class Validator {
   }
 
   /**
+   * 커스텀 구분자 패턴으로 시작하는지 확인
+   * @param {string} input - 입력 문자열
+   * @returns {boolean}
+   */
+  static hasCustomDelimiter(input) {
+    return input.startsWith(this.CUSTOM_DELIMITER_PREFIX);
+  }
+
+  /**
    * 포인터/인덱스 방식으로 커스텀 구분자 형식 검증
    * @param {string} input - 검증할 입력 문자열
    * @throws {Error} 형식이 잘못된 경우
    */
   static validateFormatManual(input) {
-    if (input.length < 2 || input[0] !== '/' || input[1] !== '/') return;
+    if (!Validator.hasCustomDelimiter(input)) return;
 
     let newlineIndex = -1;
     for (let i = 2; i < input.length; i++) {
@@ -57,7 +68,7 @@ class Validator {
    * @throws {Error} 형식이 잘못된 경우
    */
   static validateFormatBuiltIn(input) {
-    if (!input.startsWith('//')) return;
+    if (!this.hasCustomDelimiter(input)) return;
 
     const newlineIndex = input.indexOf('\n');
 
@@ -71,7 +82,7 @@ class Validator {
    * @throws {Error} 허용되지 않는 문자가 포함된 경우
    */
   static validateFormatRegex(input) {
-    if (!input.startsWith('//')) return;
+    if (!this.hasCustomDelimiter(input)) return;
 
     if (!/^\/\/.+\n/.test(input)) {
       throw new Error('[ERROR] 커스텀 구분자 형식이 올바르지 않습니다.');
@@ -87,7 +98,7 @@ class Validator {
   static validateCharactersManual(input, delimiters) {
     let startIndex = 0;
 
-    if (input.length >= 2 && input[0] === '/' && input[1] === '/') {
+    if (this.hasCustomDelimiter(input)) {
       for (let i = 2; i < input.length; i++) {
         if (input[i] === '\n') {
           startIndex = i + 1;
@@ -115,11 +126,10 @@ class Validator {
    * @param {string[]} delimiters - 허용할 구분자 배열
    * @throws {Error} 허용되지 않은 문자가 포함된 경우
    */
-  // TODO: let 쓰기 싫음
   static validateCharactersBuiltIn(input, delimiters) {
     let expression = input;
 
-    if (input.startsWith('//')) {
+    if (this.hasCustomDelimiter(input)) {
       const newlineIndex = input.indexOf('\n');
       if (newlineIndex !== -1) {
         expression = input.slice(newlineIndex + 1);
