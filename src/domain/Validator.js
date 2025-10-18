@@ -1,5 +1,15 @@
 class Validator {
   static CUSTOM_DELIMITER_PREFIX = '//';
+  static CUSTOM_DELIMITER_START_INDEX = 2;
+  static MIN_NEWLINE_INDEX = 2;
+  static DIGIT_CHARS = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+  static DECIMAL_POINT = '.';
+
+  static ERROR_MESSAGES = {
+    NEGATIVE_NUMBER: '[ERROR] 양수만 계산할 수 있습니다.',
+    INVALID_FORMAT: '[ERROR] 커스텀 구분자 형식이 올바르지 않습니다.',
+    INVALID_CHARACTER: '[ERROR] 허용되지 않은 문자가 포함되어 있습니다.',
+  };
 
   /**
    * 성능 최적화된 형식 검증 (BuiltIn 방식 사용)
@@ -29,7 +39,7 @@ class Validator {
    */
   static validateNumbers(numbers) {
     if (numbers.some((n) => n < 0)) {
-      throw new Error('[ERROR] 양수만 계산할 수 있습니다.');
+      throw new Error(this.ERROR_MESSAGES.NEGATIVE_NUMBER);
     }
   }
 
@@ -51,15 +61,20 @@ class Validator {
     if (!Validator.hasCustomDelimiter(input)) return;
 
     let newlineIndex = -1;
-    for (let i = 2; i < input.length; i++) {
+    for (
+      let i = Validator.CUSTOM_DELIMITER_START_INDEX;
+      i < input.length;
+      i++
+    ) {
       if (input[i] === '\n') {
         newlineIndex = i;
         break;
       }
     }
 
-    if (newlineIndex <= 2)
-      throw new Error('[ERROR] 커스텀 구분자 형식이 올바르지 않습니다.');
+    if (newlineIndex <= Validator.MIN_NEWLINE_INDEX) {
+      throw new Error(Validator.ERROR_MESSAGES.INVALID_FORMAT);
+    }
   }
 
   /**
@@ -72,8 +87,9 @@ class Validator {
 
     const newlineIndex = input.indexOf('\n');
 
-    if (newlineIndex <= 2)
-      throw new Error('[ERROR] 커스텀 구분자 형식이 올바르지 않습니다.');
+    if (newlineIndex <= Validator.MIN_NEWLINE_INDEX) {
+      throw new Error(Validator.ERROR_MESSAGES.INVALID_FORMAT);
+    }
   }
 
   /**
@@ -85,7 +101,7 @@ class Validator {
     if (!Validator.hasCustomDelimiter(input)) return;
 
     if (!/^\/\/.+\n/.test(input)) {
-      throw new Error('[ERROR] 커스텀 구분자 형식이 올바르지 않습니다.');
+      throw new Error(Validator.ERROR_MESSAGES.INVALID_FORMAT);
     }
   }
 
@@ -99,7 +115,11 @@ class Validator {
     let startIndex = 0;
 
     if (Validator.hasCustomDelimiter(input)) {
-      for (let i = 2; i < input.length; i++) {
+      for (
+        let i = Validator.CUSTOM_DELIMITER_START_INDEX;
+        i < input.length;
+        i++
+      ) {
         if (input[i] === '\n') {
           startIndex = i + 1;
           break;
@@ -111,11 +131,12 @@ class Validator {
       const currentChar = input[i];
       const isDigit = currentChar >= '0' && currentChar <= '9';
       const isDelimiter = delimiters.includes(currentChar);
-
-      const isDecimalPoint = currentChar === '.' && !delimiters.includes('.');
+      const isDecimalPoint =
+        currentChar === Validator.DECIMAL_POINT &&
+        !delimiters.includes(Validator.DECIMAL_POINT);
 
       if (!isDigit && !isDelimiter && !isDecimalPoint) {
-        throw new Error('[ERROR] 허용되지 않은 문자가 포함되어 있습니다.');
+        throw new Error(Validator.ERROR_MESSAGES.INVALID_CHARACTER);
       }
     }
   }
@@ -127,37 +148,21 @@ class Validator {
    * @throws {Error} 허용되지 않은 문자가 포함된 경우
    */
   static validateCharactersBuiltIn(input, delimiters) {
-    let expression = input;
-
-    if (Validator.hasCustomDelimiter(input)) {
-      const newlineIndex = input.indexOf('\n');
-      if (newlineIndex !== -1) {
-        expression = input.slice(newlineIndex + 1);
-      }
-    }
+    const expression = Validator.hasCustomDelimiter(input)
+      ? input.slice(input.indexOf('\n') + 1)
+      : input;
 
     if (!expression) return;
-    const allowedChars = new Set([
-      '0',
-      '1',
-      '2',
-      '3',
-      '4',
-      '5',
-      '6',
-      '7',
-      '8',
-      '9',
-      ...delimiters,
-    ]);
 
-    if (!delimiters.includes('.')) {
-      allowedChars.add('.');
+    const allowedChars = new Set([...Validator.DIGIT_CHARS, ...delimiters]);
+
+    if (!delimiters.includes(Validator.DECIMAL_POINT)) {
+      allowedChars.add(Validator.DECIMAL_POINT);
     }
 
     for (const char of expression) {
       if (!allowedChars.has(char)) {
-        throw new Error('[ERROR] 허용되지 않은 문자가 포함되어 있습니다.');
+        throw new Error(Validator.ERROR_MESSAGES.INVALID_CHARACTER);
       }
     }
   }
@@ -173,11 +178,13 @@ class Validator {
     if (!expression) return;
 
     const escapedDelimiters = delimiters.join('');
-    const decimalPoint = delimiters.includes('.') ? '' : '\\.';
+    const decimalPoint = delimiters.includes(Validator.DECIMAL_POINT)
+      ? ''
+      : '\\.';
 
     const pattern = new RegExp(`^[0-9${escapedDelimiters}${decimalPoint}]+$`);
     if (!pattern.test(expression)) {
-      throw new Error('[ERROR] 허용되지 않은 문자가 포함되어 있습니다.');
+      throw new Error(Validator.ERROR_MESSAGES.INVALID_CHARACTER);
     }
   }
 }
