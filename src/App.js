@@ -9,20 +9,22 @@ class App {
       '덧셈할 문자열을 입력해 주세요.\n'
     );
 
-    if (input.startsWith('//')) {
-      Validator.validateFormatManual(input);
+    const parsedInput = input.replace(/\\n/g, '\n');
+
+    if (parsedInput.startsWith('//')) {
+      Validator.validateFormatManual(parsedInput);
     }
-    const delimiters = Separator.getDelimiters(input);
-    Validator.validateCharactersManual(input, delimiters);
+    const delimiters = Separator.getDelimiters(parsedInput);
+    Validator.validateCharactersManual(parsedInput, delimiters);
 
     const calculator = new AdditionCalculator(delimiters);
-    const strNum = calculator.split(input);
+    const strNum = calculator.split(parsedInput);
 
     const numbers = strNum.map(Number);
     Validator.validateNumbers(numbers);
 
     const result = calculator.sum(numbers);
-    MissionUtils.Console.print(`결과: ${result}`);
+    MissionUtils.Console.print(`결과 : ${result}`);
   }
 }
 
