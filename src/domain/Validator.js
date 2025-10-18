@@ -59,8 +59,33 @@ class Validator {
     }
   }
 
-  static validateCharactersManual(input) {
-    // for loop + input[i]
+  /**
+   * 포인터/인덱스 방식으로 허용 문자 검증
+   * @param {string} input - 검증할 입력 문자열
+   * @param {string[]} delimiters - 허용할 구분자 배열 (예: [',', ':', ';'])
+   * @throws {Error} 허용되지 않은 문자가 포함된 경우
+   */
+  static validateCharactersManual(input, delimiters) {
+    let startIndex = 0;
+
+    if (input.length >= 2 && input[0] === '/' && input[1] === '/') {
+      for (let i = 2; i < input.length; i++) {
+        if (input[i] === '\n') {
+          startIndex = i + 1;
+          break;
+        }
+      }
+    }
+
+    for (let i = startIndex; i < input.length; i++) {
+      const currentChar = input[i];
+      const isDigit = currentChar >= '0' && currentChar <= '9';
+      const isDelimiter = delimiters.includes(currentChar);
+
+      if (!isDigit && !isDelimiter) {
+        throw new Error('[ERROR] 허용되지 않은 문자가 포함되어 있습니다.');
+      }
+    }
   }
 
   /**
