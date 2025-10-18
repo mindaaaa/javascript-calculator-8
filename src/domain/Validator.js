@@ -70,7 +70,37 @@ class Validator {
    * @throws {Error} 허용되지 않은 문자가 포함된 경우
    */
   // TODO: let 쓰기 싫음
-  static validateCharactersBuiltIn(input, delimiters) {}
+  static validateCharactersBuiltIn(input, delimiters) {
+    let expression = input;
+
+    if (input.startsWith('//')) {
+      const newlineIndex = input.indexOf('\n');
+      if (newlineIndex !== -1) {
+        expression = input.slice(newlineIndex + 1);
+      }
+    }
+
+    if (!expression) return;
+    const allowedChars = new Set([
+      '0',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      ...delimiters,
+    ]);
+
+    for (const char of expression) {
+      if (!allowedChars.has(char)) {
+        throw new Error('[ERROR] 허용되지 않은 문자가 포함되어 있습니다.');
+      }
+    }
+  }
 
   /**
    * 정규표현식으로 허용 문자 검증
