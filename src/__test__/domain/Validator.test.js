@@ -23,97 +23,31 @@ describe('Validator 클래스', () => {
     });
   });
 
-  describe('validateFormatManual', () => {
-    test('올바른 커스텀 구분자 형식은 통과한다', () => {
-      // given
-      const input = '//;\n1;2;3';
+  describe('형식 검증 - 3가지 방식', () => {
+    const methods = [
+      { name: 'Manual', fn: Validator.validateFormatManual },
+      { name: 'BuiltIn', fn: Validator.validateFormatBuiltIn },
+      { name: 'Regex', fn: Validator.validateFormatRegex },
+    ];
 
-      // when & then
-      expect(() => {
-        Validator.validateFormatManual(input);
-      }).not.toThrow();
-    });
+    methods.forEach(({ name, fn }) => {
+      describe(`validateFormat${name}`, () => {
+        test(`[${name}] 올바른 커스텀 구분자 형식은 통과한다`, () => {
+          expect(() => fn('//;\n1;2;3')).not.toThrow();
+        });
 
-    test('커스텀 구분자가 없는 일반 입력은 통과한다', () => {
-      // given
-      const input = '1,2,3';
+        test(`[${name}] 커스텀 구분자가 없는 일반 입력은 통과한다`, () => {
+          expect(() => fn('1,2,3')).not.toThrow();
+        });
 
-      // when & then
-      expect(() => {
-        Validator.validateFormatManual(input);
-      }).not.toThrow();
-    });
+        test(`[${name}] 구분자가 비어있으면 에러를 던진다`, () => {
+          expect(() => fn('//\n1')).toThrow('[ERROR]');
+        });
 
-    test('구분자가 비어있으면 에러를 던진다', () => {
-      // given
-      const input = '//\n1';
-
-      // when & then
-      expect(() => {
-        Validator.validateFormatManual(input);
-      }).toThrow('[ERROR]');
-    });
-
-    test('개행 문자가 없으면 에러를 던진다', () => {
-      // given
-      const input = '//;1;2';
-
-      // when & then
-      expect(() => {
-        Validator.validateFormatManual(input);
-      }).toThrow('[ERROR]');
-    });
-  });
-
-  describe('validateFormatBuiltIn', () => {
-    test('올바른 커스텀 구분자 형식은 통과한다', () => {
-      expect(() => {
-        Validator.validateFormatBuiltIn('//;\n1;2;3');
-      }).not.toThrow();
-    });
-
-    test('커스텀 구분자가 없는 일반 입력은 통과한다', () => {
-      expect(() => {
-        Validator.validateFormatBuiltIn('1,2,3');
-      }).not.toThrow();
-    });
-
-    test('구분자가 비어있으면 에러를 던진다', () => {
-      expect(() => {
-        Validator.validateFormatBuiltIn('//\n1');
-      }).toThrow('[ERROR]');
-    });
-
-    test('개행 문자가 없으면 에러를 던진다', () => {
-      expect(() => {
-        Validator.validateFormatBuiltIn('//;1;2');
-      }).toThrow('[ERROR]');
-    });
-  });
-
-  describe('validateFormatRegex', () => {
-    test('올바른 커스텀 구분자 형식은 통과한다', () => {
-      expect(() => {
-        Validator.validateFormatRegex('//;\n1;2;3');
-      }).not.toThrow();
-    });
-
-    test('커스텀 구분자가 없는 일반 입력은 통과한다', () => {
-      expect(() => {
-        Validator.validateFormatRegex('1,2,3');
-      }).not.toThrow();
-    });
-
-    test('구분자가 비어있으면 에러를 던진다', () => {
-      expect(() => {
-        Validator.validateFormatRegex('//\n1');
-      }).toThrow('[ERROR]');
-    });
-
-    test('개행 문자가 없으면 에러를 던진다', () => {
-      expect(() => {
-        Validator.validateFormatRegex('//;1;2');
-      }).toThrow('[ERROR]');
+        test(`[${name}] 개행 문자가 없으면 에러를 던진다`, () => {
+          expect(() => fn('//;1;2')).toThrow('[ERROR]');
+        });
+      });
     });
   });
 
