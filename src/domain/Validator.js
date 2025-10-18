@@ -63,12 +63,30 @@ class Validator {
     // for loop + input[i]
   }
 
-  static validateCharactersBuiltIn(input) {
-    // includes, split 등
-  }
+  /**
+   * 내장 메서드로 허용 문자 검증
+   * @param {string} input - 검증할 입력 문자열
+   * @param {string[]} delimiters - 허용할 구분자 배열
+   * @throws {Error} 허용되지 않은 문자가 포함된 경우
+   */
+  // TODO: let 쓰기 싫음
+  static validateCharactersBuiltIn(input, delimiters) {}
 
-  static validateCharactersRegex(input) {
-    // /^[0-9,:]+$/
+  /**
+   * 정규표현식으로 허용 문자 검증
+   * @param {string} input - 검증할 입력 문자열
+   * @param {string[]} delimiters - 허용할 구분자 배열
+   * @throws {Error} 허용되지 않은 문자가 포함된 경우
+   */
+  static validateCharactersRegex(input, delimiters) {
+    const expression = input.replace(/^\/\/.+\n/, '');
+    if (!expression) return;
+
+    const escapedDelimiters = delimiters.join('');
+    const pattern = new RegExp(`^[0-9${escapedDelimiters}]+$`);
+    if (!pattern.test(expression)) {
+      throw new Error('[ERROR] 허용되지 않은 문자가 포함되어 있습니다.');
+    }
   }
 }
 
