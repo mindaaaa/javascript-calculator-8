@@ -40,10 +40,10 @@ describe('AdditionCalculator 클래스', () => {
   });
 
   describe('sum', () => {
-    test('문자열 배열을 숫자로 변환하여 합계를 계산한다', () => {
+    test('숫자 배열의 합계를 계산한다', () => {
       // given
       const calculator = new Calculator([',', ':']);
-      const stringNumbers = ['1', '2', '3'];
+      const stringNumbers = [1, 2, 3];
 
       // when
       const result = calculator.sum(stringNumbers);
@@ -62,20 +62,6 @@ describe('AdditionCalculator 클래스', () => {
 
       // then
       expect(result).toBe(0);
-    });
-  });
-
-  describe('calculate', () => {
-    test('전체 계산을 수행한다', () => {
-      // given
-      const calculator = new Calculator([',', ':']);
-      const input = '1,2:3';
-
-      // when
-      const result = calculator.calculate(input);
-
-      // then
-      expect(result).toBe(6);
     });
   });
 });

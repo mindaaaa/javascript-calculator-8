@@ -19,25 +19,13 @@ class AdditionCalculator {
   }
 
   /**
-   * 문자열 배열을 숫자로 변환하여 합계 계산
-   * @param {string[]} stringNumbers - 문자열 숫자 배열
+   * 숫자 배열의 합계 계산
+   * @param {number[]} stringNumbers - 숫자 배열
    * @returns {number} 합계
    */
-  sum(strNum) {
-    if (!strNum.length) return 0;
-
-    const operand = strNum.map(Number);
-    return operand.reduce((acc, num) => acc + num, 0);
-  }
-
-  /**
-   * 전체 계산 (split & sum)
-   * @param {string} expression - 계산할 문자열
-   * @returns {number} 계산 결과
-   */
-  calculate(expression) {
-    const stringNumbers = this.split(expression);
-    return this.sum(stringNumbers);
+  sum(numbers) {
+    if (!numbers.length) return 0;
+    return numbers.reduce((acc, num) => acc + num, 0);
   }
 }
 
