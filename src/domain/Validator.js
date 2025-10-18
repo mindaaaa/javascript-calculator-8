@@ -11,6 +11,46 @@ class Validator {
       throw new Error('[ERROR] 양수만 계산할 수 있습니다.');
     }
   }
+
+  /**
+   * 순수 포인터/인덱스 방식
+   */
+  static validateFormatManual(input) {
+    if (input.length < 2 || input[0] !== '/' || input[1] !== '/') return;
+
+    let newlineIndex = -1;
+    for (let i = 2; i < input.length; i++) {
+      if (input[i] === '\n') {
+        newlineIndex = i;
+        break;
+      }
+    }
+
+    if (newlineIndex <= 2)
+      throw new Error('[ERROR] 커스텀 구분자 형식이 올바르지 않습니다.');
+  }
+
+  /**
+   * 내장 메서드 활용 방식
+   */
+  static validateFormatBuiltIn(input) {}
+
+  /**
+   * 정규표현식 방식
+   */
+  static validateFormatRegex(input) {}
+
+  static validateCharactersManual(input) {
+    // for loop + input[i]
+  }
+
+  static validateCharactersBuiltIn(input) {
+    // includes, split 등
+  }
+
+  static validateCharactersRegex(input) {
+    // /^[0-9,:]+$/
+  }
 }
 
 export default Validator;
