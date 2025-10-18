@@ -1,4 +1,9 @@
 class AdditionCalculator {
+  static CUSTOM_DELIMITER_PATTERN = /^\/\/.+\n/;
+  static DELIMITER_SEPARATOR = '|';
+  static EMPTY_STRING = '';
+  static INITIAL_SUM = 0;
+
   constructor(delimiters) {
     this.delimiters = delimiters;
   }
@@ -9,13 +14,20 @@ class AdditionCalculator {
    * @returns {string[]} 분리된 문자열 배열
    */
   split(expression) {
-    const cleanExpression = expression.replace(/^\/\/.+\n/, '');
+    const cleanExpression = expression.replace(
+      AdditionCalculator.CUSTOM_DELIMITER_PATTERN,
+      AdditionCalculator.EMPTY_STRING
+    );
     if (!cleanExpression) return [];
 
-    const pattern = this.delimiters.join('|');
+    const pattern = this.delimiters.join(
+      AdditionCalculator.DELIMITER_SEPARATOR
+    );
     const regex = new RegExp(pattern);
 
-    return cleanExpression.split(regex).filter((str) => str !== '');
+    return cleanExpression
+      .split(regex)
+      .filter((str) => str !== AdditionCalculator.EMPTY_STRING);
   }
 
   /**
@@ -24,8 +36,11 @@ class AdditionCalculator {
    * @returns {number} 합계
    */
   sum(numbers) {
-    if (!numbers.length) return 0;
-    return numbers.reduce((acc, num) => acc + num, 0);
+    if (!numbers.length) return AdditionCalculator.INITIAL_SUM;
+    return numbers.reduce(
+      (acc, num) => acc + num,
+      AdditionCalculator.INITIAL_SUM
+    );
   }
 }
 
