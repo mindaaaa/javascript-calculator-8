@@ -1,4 +1,4 @@
-import Validator from '../domain/Validator.js';
+import Validator from '../Validator.js';
 
 describe('Validator 클래스', () => {
   describe('validateNumbers', () => {

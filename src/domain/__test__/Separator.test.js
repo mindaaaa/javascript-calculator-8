@@ -1,4 +1,4 @@
-import Separator from '../domain/Separator.js';
+import Separator from '../Separator.js';
 
 describe('Separator 클래스', () => {
   describe('extractCustomDelimiter', () => {

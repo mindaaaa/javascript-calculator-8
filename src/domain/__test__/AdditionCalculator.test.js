@@ -1,4 +1,4 @@
-import Calculator from '../domain/AdditionCalculator.js';
+import Calculator from '../AdditionCalculator.js';
 
 describe('AdditionCalculator 클래스', () => {
   describe('split', () => {
