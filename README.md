@@ -88,19 +88,18 @@ precourse-woowa08/                # 모노레포 루트
 
 ### 1. Format Validation
 
-| 방식                        | Total(ms) | Avg(ms/call) | Ratio | 비고                 |
-| --------------------------- | --------- | ------------ | ----- | -------------------- |
-| 🥇 Built-in (`indexOf`)     | **4.196** | 0.000042     | 1.00x | ✅ **가장 빠름**     |
-| — 네이티브 문자열 탐색 활용 |
-| 🥈 Regex (Pattern)          | 6.203     | 0.000062     | 1.48x | 패턴 초기화 오버헤드 |
-| 🥉 Manual (Pointer)         | 15.746    | 0.000157     | 3.75x | 반복 제어 비용 큼    |
+| 방식                    | Total(ms) | Avg(ms/call) | Ratio | 비고                 |
+| ----------------------- | --------- | ------------ | ----- | -------------------- |
+| 🥇 Built-in (`indexOf`) | **4.196** | 0.000042     | 1.00x | **가장 빠름**        |
+| 🥈 Regex (Pattern)      | 6.203     | 0.000062     | 1.48x | 패턴 초기화 오버헤드 |
+| 🥉 Manual (Pointer)     | 15.746    | 0.000157     | 3.75x | 반복 제어 비용 큼    |
 
 > [!NOTE]
 > 포맷 검증은 `indexOf`/`includes` 위주가 최적
 
 ### 2. Character Validation
 
-- **Simple/Custom Delimiter/Decimal** 세 케이스 공통적으로 *Manual(Loop)*가 가장 빠름
+- **Simple/Custom Delimiter/Decimal** 세 케이스 공통적으로 Manual(Loop)가 가장 빠름
 - 복잡 규칙(Complex)에서는 **Regex**가 오히려 효율적
   | 케이스 | 🥇 추천 | 코멘트 |
   | --------------------- | ------------ | -------------------- |
@@ -141,8 +140,8 @@ precourse-woowa08/                # 모노레포 루트
 
 > [!IMPORTANT]
 > 이번 미션은 `Validator`의 **두 검증 함수**에 대해
-> 각각 3가지 방식(포인터/빌트인/정규식)을 적용해 벤치마크했습니다.abs
-> 실제 미션 범위에선 가장 좋은 성능을 보인 빌트인 & 포인터를 각 케이스에 채택했습니다.
+> 각각 3가지 방식(포인터/빌트인/정규식)을 적용해 벤치마크했습니다.<br>
+> 실제 미션 범위에선 가장 좋은 성능을 보인 빌트인 & 포인터를 각 케이스에 채택했습니다.<br>
 > 이 밖에도 소수 연산 지원과, `함수형(Functional)` 시도 등을 별도 디렉터리에서 실험했습니다.
 
 ---
@@ -159,4 +158,3 @@ precourse-woowa08/                # 모노레포 루트
 | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
 | 퍼포먼스 결과 원본 | [performance-2025-10-18T10-30-45.txt](https://github.com/mindaaaa/javascript-calculator-8/blob/mindaaaa/src/performance/results/performance-2025-10-18T10-30-45.txt) | 벤치마크 원문(케이스별 Total/Avg/Ratio 정리) |
 | FP 실험 코드       | [FP로 구현하는 문자열 계산기](https://github.com/mindaaaa/javascript-calculator-8/tree/mindaaaa/src/functional)                                                      | 함수형 스타일로 파이프라인 구성 실험         |
-| 저장소/프로필      | [mindaaaa 프로필](https://github.com/mindaaaa)                                                                                                                       | 프로젝트 전반 및 개인 레포 확인              |
