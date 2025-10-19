@@ -194,7 +194,7 @@ const result = pipe(
 
 ## 테스트 예시
 
-> [NOTE]
+> [!NOTE]
 > 순수 함수는 테스트가 정말 매우 쉽다!
 
 ```javascript
